@@ -36,13 +36,13 @@ function timeEditor(container, options) {
 function showDetails(nom, stat, id) {
     slog("id: " + id + " nom: " + nom + " stat: " + stat);
 
-
+    var parametros = { parametros: id, otrosParametros: nom };
 
     try {
         $.ajax({
             type: "POST",
             url: "Default.aspx/postMetodo",
-            data: "{'parametros' : '" + id + "'}",
+            data: JSON.stringify(parametros),
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             success: OnSuccess,

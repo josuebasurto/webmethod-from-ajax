@@ -19,9 +19,9 @@ public partial class _Default : System.Web.UI.Page
 
     [WebMethod]
     [ScriptMethod(UseHttpGet = false, ResponseFormat = ResponseFormat.Json)]
-    public static string postMetodo(string parametros)
+    public static string postMetodo(string parametros, string otrosParametros)
     {
-        return "postMetodo";
+        return "postMetodo, parametro: " + parametros + " otrosParametros: " + otrosParametros;
     }
 
     [WebMethod]
