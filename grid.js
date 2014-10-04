@@ -34,37 +34,42 @@ function timeEditor(container, options) {
 }
 
 function showDetails(nom, stat, id) {
-    slog("id: " + id + " nom: " + nom + " stat: " + stat);
+    slog("ShowDetails params <br /> id: " + id + " nom: " + nom + " stat: " + stat);
 
-    var parametros = { parametros: id, otrosParametros: nom };
+    //We create an object that can have multiple parameters
+    var parametros = {
+        param0: id,
+        param1: nom
+    };
 
+    //We try to make an ajax request.
     try {
         $.ajax({
             type: "POST",
-            url: "Default.aspx/postMetodo",
-            data: JSON.stringify(parametros),
+            url: "Default.aspx/postMetodo", //File + WebMethod.
+            data: JSON.stringify(parametros), //We give format to parameters to avoid attacks
             dataType: "json",
             contentType: "application/json; charset=utf-8",
-            success: OnSuccess,
-            error: OnFail
-
+            success: OnSuccess, //Success function
+            error: OnFail //Fail function
         }).done(function () {
-            slog("Done!");
+            slog("Done!"); //Every time it runs
         });
     }
     catch (err) {
-        slog("Excepcion: " + err.message);
+        slog("Exception: " + err.message);
     }
 
+    slog("<hr />");
 }
 
 function OnSuccess(response) {
-    slog("Exito: " + response.d);
+    slog("Success event: " + response.d);
     
 }
 
 function OnFail(response) {
-    slog("Fracaso: " + response.d);
+    slog("Fail Event: " + response.d);
 }
 
 function slog(text){
