@@ -21,13 +21,13 @@ public partial class _Default : System.Web.UI.Page
     [ScriptMethod(UseHttpGet = false, ResponseFormat = ResponseFormat.Json)]
     public static string postMetodo(string parametros)
     {
-        return "asdf";
+        return "postMetodo";
     }
 
     [WebMethod]
     [ScriptMethod(UseHttpGet = true, ResponseFormat = ResponseFormat.Json)]
     public static string getMetodo(string parametros)
     {
-        return "asdf";
+        return "getMetodo";
     }
 }
