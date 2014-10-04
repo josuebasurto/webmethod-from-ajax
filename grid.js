@@ -45,11 +45,11 @@ function showDetails(nom, stat, id) {
     //We try to make an ajax request.
     try {
         $.ajax({
-            type: "POST",
+            type: "POST", //HTTP Method
             url: "Default.aspx/postMetodo", //File + WebMethod.
             data: JSON.stringify(parametros), //We give format to parameters to avoid attacks
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
+            dataType: "json", //Type of data
+            contentType: "application/json; charset=utf-8", //sent content type
             success: OnSuccess, //Success function
             error: OnFail //Fail function
         }).done(function () {
