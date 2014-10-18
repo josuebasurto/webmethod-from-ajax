@@ -183,10 +183,7 @@ function exportaExcel() {
 
 }
 
-
-
-//Codigo donde se le dice al boton de ReadValue que exporte cuando se le da click
-$('#readValue').click(function(){
-    slog('click!');
+function readValue_onClick(){
+    alert('Exportemos...');
     exportaExcel();
-})
+}
