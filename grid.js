@@ -1,4 +1,6 @@
-﻿$("#grid").kendoGrid({
+﻿
+
+$("#grid").kendoGrid({
     dataSource: [
         { id: 1, nombre: "Josue", status: "Disponible", fecha: new Date("2011/12/29 10:45") },
         { id: 2, nombre: "Carito", status: "No Disponible", fecha: new Date("2014/12/29 12:45") }
@@ -8,8 +10,7 @@
         { field: "nombre", title: "Nombre" },
         { field: "status", title: "Status" },
         { field: "fecha", title: "Fecha", format: "{0:yyyy-MM-dd}", editor: dateTimeEditor, editable:true },
-        { field: "fecha", title: "Hora", format: "{0:HH:mm}", editor: timeEditor, editable: true },
-        { template: '<input text="accion" type="button" onClick="javascript:showDetails(\'#: nombre #\',\'#: status #\',\'#: id #\')" value="Accion"></input>' }
+        { field: "fecha", title: "Hora", format: "{0:HH:mm}", editor: timeEditor, editable: true }
 
     ],
     editable: "incell"
