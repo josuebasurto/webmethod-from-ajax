@@ -9,9 +9,11 @@
 <body>
     <form id="form1" runat="server">
     <div>
+        <h1>Hola eposa</h1>
+        <div><button data-bind="click:saveGridCsv()">Download to CSV</button></div>
         <div id="grid"></div>
         <hr />
-        <div id="result">
+        <div id="result"> 
         </div>
     </div>
     </form>
@@ -23,6 +25,7 @@
     <script src="js/kendo.datepicker.min.js"></script>
     <script src="js/kendo.datetimepicker.min.js"></script>
     <script src="js/kendo.grid.min.js"></script>
+    <script src="fileSaver.js"></script>
     <script src="grid.js"></script>
 
 </body>

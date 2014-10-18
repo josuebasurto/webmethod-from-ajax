@@ -2,18 +2,39 @@
 
 $("#grid").kendoGrid({
     dataSource: [
-        { id: 1, nombre: "Josue", status: "Disponible", fecha: new Date("2011/12/29 10:45") },
-        { id: 2, nombre: "Carito", status: "No Disponible", fecha: new Date("2014/12/29 12:45") }
+    { id: 1, nombre: "Josue", status: "Disponible", fecha: new Date("2011/12/29 10:45") },
+    { id: 2, nombre: "Carito", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+    { id: 3, nombre: "sara", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+    { id: 4, nombre: "Jose", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+    { id: 5, nombre: "irma", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+    { id: 6, nombre: "vero", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+    { id: 7, nombre: "gaby", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+    { id: 8, nombre: "lalo", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+    { id: 9, nombre: "marco", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+    { id: 10, nombre: "juan", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+    { id: 11, nombre: "pedro", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+    { id: 12, nombre: "doki", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+    { id: 13, nombre: "tasha", status: "No Disponible", fecha: new Date("2014/12/29 12:45") }
     ],
     columns: [
-        { field: "id", title: "#" },
-        { field: "nombre", title: "Nombre" },
-        { field: "status", title: "Status" },
-        { field: "fecha", title: "Fecha", format: "{0:yyyy-MM-dd}", editor: dateTimeEditor, editable:true },
-        { field: "fecha", title: "Hora", format: "{0:HH:mm}", editor: timeEditor, editable: true }
+    { field: "id", title: "#" },
+    { field: "nombre", title: "Nombre" },
+    { field: "status", title: "Status" },
+    { field: "fecha", title: "Fecha", format: "{0:yyyy-MM-dd}", editor: dateTimeEditor, editable:true },
+    { field: "fecha", title: "Hora", format: "{0:HH:mm}", editor: timeEditor, editable: true }
 
     ],
-    editable: "incell"
+    editable: "incell",
+    groupable: true,
+    sortable: true,
+    //Paging
+    pageSize: 5,
+    pageable: {
+        refresh: true,
+        pageSizes: true,
+        buttonCount: 5
+    }
+
 });
 
 function dateTimeEditor(container, options) {
@@ -21,8 +42,8 @@ function dateTimeEditor(container, options) {
         'data-value-field="' + options.field + '" ' +
         'data-bind="value:' + options.field + '" ' +
         'data-format="' + options.format + '" />')
-        .appendTo(container)
-        .kendoDatePicker({});
+    .appendTo(container)
+    .kendoDatePicker({});
 }
 
 function timeEditor(container, options) {
@@ -30,8 +51,8 @@ function timeEditor(container, options) {
         'data-value-field="' + options.field + '" ' +
         'data-bind="value:' + options.field + '" ' +
         'data-format="' + options.format + '" />')
-        .appendTo(container)
-        .kendoTimePicker({});
+    .appendTo(container)
+    .kendoTimePicker({});
 }
 
 function showDetails(nom, stat, id) {
@@ -76,3 +97,98 @@ function OnFail(response) {
 function slog(text){
     $('#result').prepend(text + '<br />');
 }
+
+
+
+(function () {
+    var viewModel = kendo.observable({
+
+        saveGridCsv: function () {
+            viewModel.exportCsv('grid', 'testdata.csv');
+        },
+        exportCsv: function (idgrid, fileName) {
+            var grid = $("#" + idgrid).data("kendoGrid");
+            // var originalPageSize = grid.dataSource.pageSize();
+            var originalPageSize = 5;
+            var csv = '';
+            fileName = fileName || 'download.csv';
+
+                // Increase page size to cover all the data and get a reference to that data
+                grid.dataSource.pageSize(grid.dataSource.view().length);
+                var data = grid.dataSource.view();
+
+                //add the header row
+                for (var i = 0; i < grid.columns.length; i++) {
+                    var field = grid.columns[i].field;
+                    var title = grid.columns[i].title || field;
+
+                    //NO DATA
+                    if (!field) continue;
+
+                    title = title.replace(/"/g, '""');
+                    csv += '"' + title + '"';
+                    if (i < grid.columns.length - 1) {
+                        csv += ',';
+                    }
+                }
+                csv += '\n';
+
+                //add each row of data
+                for (var row in data) {
+                    for (var i = 0; i < grid.columns.length; i++) {
+                        var fieldName = grid.columns[i].field;
+                        var template = grid.columns[i].template;
+                        var exportFormat = grid.columns[i].exportFormat;
+
+                        //VALIDATE COLUMN
+                        if (!fieldName) continue;
+                        var value = '';
+                        if (fieldName.indexOf('.') >= 0){
+                            var properties = fieldName.split('.');
+                            var value = data[row] || '';
+                            for (var j = 0; j < properties.length; j++) {
+                                var prop = properties[j];
+                                value = value[prop] || '';
+                            }
+                        }
+                        else{
+                            value = data[row][fieldName] || '';
+                        }
+
+                        if (value && template && exportFormat !== false) {
+                            value = _.isFunction(template)
+                            ? template(data[row])
+                            : kendo.template(template)(data[row]);
+                        }
+
+                        value = value.toString().replace(/"/g, '""');
+                        csv += '"' + value + '"';
+                        if (i < grid.columns.length - 1) {
+                            csv += ',';
+                        }
+                    }
+                    csv += '\n';
+                }
+
+                // Reset datasource
+                grid.dataSource.pageSize(originalPageSize);
+
+                //EXPORT TO BROWSER
+                var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' }); //Blob.js
+                saveAs(blob, fileName); //FileSaver.js
+            }
+        })
+    // Kendo MVVM binding    
+    kendo.bind('body', viewModel);
+
+} )()
+
+
+
+
+
+
+
+
+
+
