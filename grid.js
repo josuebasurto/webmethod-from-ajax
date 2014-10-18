@@ -2,27 +2,27 @@
 
 $("#grid").kendoGrid({
     dataSource: [
-    { id: 1, nombre: "Josue", status: "Disponible", fecha: new Date("2011/12/29 10:45") },
-    { id: 2, nombre: "Carito", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-    { id: 3, nombre: "sara", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-    { id: 4, nombre: "Jose", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-    { id: 5, nombre: "irma", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-    { id: 6, nombre: "vero", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-    { id: 7, nombre: "gaby", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-    { id: 8, nombre: "lalo", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-    { id: 9, nombre: "marco", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-    { id: 10, nombre: "juan", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-    { id: 11, nombre: "pedro", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-    { id: 12, nombre: "doki", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-    { id: 13, nombre: "tasha", status: "No Disponible", fecha: new Date("2014/12/29 12:45") }
+        { id: 1, nombre: "Josue", status: "Disponible", fecha: new Date("2011/12/29 10:45") },
+        { id: 2, nombre: "Carito", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        { id: 3, nombre: "sara", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        { id: 4, nombre: "Jose", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        { id: 5, nombre: "irma", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        { id: 6, nombre: "vero", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        { id: 7, nombre: "gaby", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        { id: 8, nombre: "lalo", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        { id: 9, nombre: "marco", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        { id: 10, nombre: "juan", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        { id: 11, nombre: "pedro", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        { id: 12, nombre: "doki", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        { id: 13, nombre: "tasha", status: "No Disponible", fecha: new Date("2014/12/29 12:45") }
     ],
     columns: [
-    { field: "id", title: "#" },
-    { field: "nombre", title: "Nombre" },
-    { field: "status", title: "Status" },
-    { field: "fecha", title: "Fecha", format: "{0:yyyy-MM-dd}", editor: dateTimeEditor, editable:true },
-    { field: "fecha", title: "Hora", format: "{0:HH:mm}", editor: timeEditor, editable: true }
-
+        { field: "id", title: "#", editable : false },
+        { field: "nombre", title: "Nombre", editable : false },
+        { field: "status", title: "Status", editable : true },
+        { field: "fecha", title: "Fecha", format: "{0:yyyy-MM-dd}", editor: dateTimeEditor, editable:true },
+        { field: "fecha", title: "Hora", format: "{0:HH:mm}", editor: timeEditor, editable: true },
+        { template: '<input id="" text="accion" type="text" value="Accion"></input>' }
     ],
     editable: "incell",
     groupable: true,
@@ -99,8 +99,8 @@ function slog(text){
 }
 
 
-
-(function () {
+//Function de exportacion de excel
+function exportaExcel() {
     var viewModel = kendo.observable({
 
         saveGridCsv: function () {
@@ -177,18 +177,16 @@ function slog(text){
                 var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' }); //Blob.js
                 saveAs(blob, fileName); //FileSaver.js
             }
-        })
+        });
     // Kendo MVVM binding    
     kendo.bind('body', viewModel);
 
-} )()
+}
 
 
 
-
-
-
-
-
-
-
+//Codigo donde se le dice al boton de ReadValue que exporte cuando se le da click
+$('#readValue').click(function(){
+    slog('click!');
+    exportaExcel();
+})
