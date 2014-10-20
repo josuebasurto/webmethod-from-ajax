@@ -59,6 +59,11 @@ $("#grid").kendoGrid({
 function pruebasGrid(){
     alert('ok');
     var mikgrid = $('#grid').data("kendoGrid")._data[0];
+
+    //Recuerda tener acceso los controles con el ID
+    // checkbox_#= id #
+    // accion_#= id #
+
     alert(mikgrid.input1);
     var x =0;
 }
