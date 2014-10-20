@@ -2,27 +2,45 @@
 
 $("#grid").kendoGrid({
     dataSource: [
-        { id: 1, nombre: "Josue", status: "Disponible", fecha: new Date("2011/12/29 10:45") },
-        { id: 2, nombre: "Carito", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        { id: 3, nombre: "sara", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        { id: 4, nombre: "Jose", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        { id: 5, nombre: "irma", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        { id: 6, nombre: "vero", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        { id: 7, nombre: "gaby", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        { id: 8, nombre: "lalo", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        { id: 9, nombre: "marco", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        { id: 10, nombre: "juan", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        { id: 11, nombre: "pedro", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        { id: 12, nombre: "doki", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        { id: 13, nombre: "tasha", status: "No Disponible", fecha: new Date("2014/12/29 12:45") }
+        // { id: 1, nombre: "Josue", status: "Disponible", fecha: new Date("2011/12/29 10:45") },
+        // { id: 2, nombre: "Carito", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        // { id: 3, nombre: "sara", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        // { id: 4, nombre: "Jose", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        // { id: 5, nombre: "irma", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        // { id: 6, nombre: "vero", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        // { id: 7, nombre: "gaby", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        // { id: 8, nombre: "lalo", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        // { id: 9, nombre: "marco", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        // { id: 10, nombre: "juan", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        // { id: 11, nombre: "pedro", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        // { id: 12, nombre: "doki", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
+        // { id: 13, nombre: "tasha", status: "No Disponible", fecha: new Date("2014/12/29 12:45") }
+
+        { id: 1, nombre: "Josue", status: "Disponible", inventario: 10 },
+        { id: 2, nombre: "Carito", status: "No Disponible", inventario: 10},
+        { id: 3, nombre: "sara", status: "No Disponible", inventario: 25},
+        { id: 4, nombre: "Jose", status: "No Disponible", inventario: 10 },
+        { id: 5, nombre: "irma", status: "No Disponible", inventario: 30 },
+        { id: 6, nombre: "vero", status: "No Disponible", inventario: 10 },
+        { id: 7, nombre: "gaby", status: "No Disponible", inventario: 25},
+        { id: 8, nombre: "lalo", status: "No Disponible", inventario: 10},
+        { id: 9, nombre: "marco", status: "No Disponible", inventario: 15},
+        { id: 10, nombre: "juan", status: "No Disponible", inventario: 10},
+        { id: 11, nombre: "pedro", status: "No Disponible", inventario: 20},
+        { id: 12, nombre: "doki", status: "No Disponible", inventario: 10},
+        { id: 13, nombre: "tasha", status: "No Disponible", inventario: 40} 
     ],
     columns: [
         { field: "id", title: "#", editable : false },
-        { field: "nombre", title: "Nombre", editable : false },
-        { field: "status", title: "Status", editable : true },
-        { field: "fecha", title: "Fecha", format: "{0:yyyy-MM-dd}", editor: dateTimeEditor, editable:true },
-        { field: "fecha", title: "Hora", format: "{0:HH:mm}", editor: timeEditor, editable: true },
-        { template: '<input id="" text="accion" type="text" value="Accion"></input>' }
+        { field: "nombre", title: "Nombre", editable : false, filterable:true},
+        { field: "inventario", title: "inventario", editable : false },
+        { field: "entero",  type: "number", validation: { required: true, min: 1}},
+        
+       //{ field: "fecha", title: "Fecha", format: "{0:yyyy-MM-dd}", editor: dateTimeEditor, editable:true },
+        //{ field: "fecha", title: "Hora", format: "{0:HH:mm}", editor: timeEditor, editable: true },
+        { field:"input1", template: '<input id="accion_#= id #" text="accion" type="text" value="Accion"></input>' },
+        { template: '<input type="checkbox" id="checkbox_#= id #"></input>' }
+        //UnitPrice: { type: "number", validation: { required: true, min: 1} }
     ],
     editable: "incell",
     groupable: true,
@@ -36,6 +54,14 @@ $("#grid").kendoGrid({
     }
 
 });
+
+
+function pruebasGrid(){
+    alert('ok');
+    var mikgrid = $('#grid').data("kendoGrid")._data[0];
+    alert(mikgrid.input1);
+    var x =0;
+}
 
 function dateTimeEditor(container, options) {
     $('<input data-text-field="' + options.field + '" ' +
