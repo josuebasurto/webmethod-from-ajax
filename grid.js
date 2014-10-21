@@ -2,19 +2,6 @@
 
 $("#grid").kendoGrid({
     dataSource: [
-        // { id: 1, nombre: "Josue", status: "Disponible", fecha: new Date("2011/12/29 10:45") },
-        // { id: 2, nombre: "Carito", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        // { id: 3, nombre: "sara", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        // { id: 4, nombre: "Jose", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        // { id: 5, nombre: "irma", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        // { id: 6, nombre: "vero", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        // { id: 7, nombre: "gaby", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        // { id: 8, nombre: "lalo", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        // { id: 9, nombre: "marco", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        // { id: 10, nombre: "juan", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        // { id: 11, nombre: "pedro", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        // { id: 12, nombre: "doki", status: "No Disponible", fecha: new Date("2014/12/29 12:45") },
-        // { id: 13, nombre: "tasha", status: "No Disponible", fecha: new Date("2014/12/29 12:45") }
 
         { id: 1, nombre: "Josue", status: "Disponible", inventario: 10 },
         { id: 2, nombre: "Carito", status: "No Disponible", inventario: 10},
@@ -35,24 +22,18 @@ $("#grid").kendoGrid({
         { field: "nombre", title: "Nombre", editable : false, filterable:true},
         { field: "inventario", title: "inventario", editable : false },
         { field: "entero",  type: "number", validation: { required: true, min: 1}},
-        
-       //{ field: "fecha", title: "Fecha", format: "{0:yyyy-MM-dd}", editor: dateTimeEditor, editable:true },
-        //{ field: "fecha", title: "Hora", format: "{0:HH:mm}", editor: timeEditor, editable: true },
         { field:"input1", template: '<input id="accion_#= id #" text="accion" type="text" value="Accion"></input>' },
-        { template: '<input type="checkbox" id="checkbox_#= id #"></input>' }
-        //UnitPrice: { type: "number", validation: { required: true, min: 1} }
+        { template: '<input type="checkbox" id="checkbox_#= id #" onClick="javascript: toggleIt(#= id #)"></input>' }
     ],
     editable: "incell",
     groupable: true,
     sortable: true,
-    //Paging
     pageSize: 5,
     pageable: {
         refresh: true,
         pageSizes: true,
-        buttonCount: 5
+        buttonCount: 5 
     }
-
 });
 
 
@@ -218,3 +199,23 @@ function readValue_onClick(){
     alert('Exportemos...');
     exportaExcel();
 }
+
+function toggleIt(id){
+    
+    var pos = $.inArray(id, checkedArray); //En que posicion se encuentra?
+    var value = ($('#checkbox_'+id+':checked').length == 1); //Checa? o descheca?
+
+    if(pos >= 0){ //Si lo encontro en el array?
+        if(!value){ //Si no checa?
+            delete checkedArray[pos]; //Lo elimina
+        }
+    } else {
+        if(value){ //Si esta checado?
+            checkedArray.push(id); //Lo agrega
+        }
+    }
+
+    console.log(checkedArray); //muestra lo que se tiene checkado
+}
+
+var checkedArray = []; //Arreglo de los checkboxes
